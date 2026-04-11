@@ -1132,20 +1132,35 @@ function bootApp() {
 
 async function handleLogin(e) {
     e.preventDefault()
-    const name     = document.getElementById('login-name').value.trim()
-    const position = document.getElementById('login-position').value
-    if (!name || !position) return
+    const name       = document.getElementById('login-name').value.trim()
+    const country    = document.getElementById('login-country').value
+    const hospital   = document.getElementById('login-hospital').value.trim()
+    const department = document.getElementById('login-department').value.trim()
+    const position   = document.getElementById('login-position').value
+    if (!name || !country || !hospital || !department || !position) return
 
-    // Check if member already exists in Firestore — preserve joinedAt
+    // Normalise hospital + department so casing differences don't split groups
+    const hospitalKey   = hospital.toLowerCase().replace(/\s+/g, '_')
+    const departmentKey = department.toLowerCase().replace(/\s+/g, '_')
+    const groupKey      = `${country}__${hospitalKey}__${departmentKey}`
+
     let joinedAt = Date.now()
     try {
-        const existing = await db.collection('members').doc(name).get()
+        const existing = await db.collection('groups').doc(groupKey)
+            .collection('members').doc(name).get()
         if (existing.exists) joinedAt = existing.data().joinedAt || joinedAt
     } catch(_) {}
 
-    currentUser = { name, position, avatar: profilePicBase64 || 'NONE', joinedAt }
+    currentUser = {
+        name, position, country, hospital, department, groupKey,
+        avatar: profilePicBase64 || 'NONE', joinedAt
+    }
     localStorage.setItem('ot_current_user', JSON.stringify(currentUser))
     bootApp()
+}
+
+function updateHospitalHint() {
+    // Could pre-fill known hospitals per country in future
 }
 
 function setupProfileUpload() {
