@@ -893,8 +893,8 @@ function renderCalendar() {
             <div class="flex flex-col gap-px">
                 ${dayShifts.map(s=>`
                     <div class="text-[8px] sm:text-[10px] px-1.5 py-px rounded-lg text-white truncate" style="background:${s.color}">
-                        <span class="hidden sm:inline">${s.start}–</span>${s.end}
-                    </div>`).join('')}
+                    ${s.type || s.start+'-'+s.end}
+            </div>`).join('')}
             </div>`:''}
         </div>`
     }
