@@ -83,12 +83,12 @@
 
             <form id="login-form" class="space-y-5">
                 <div>
-                    <label class="block text-sm font-medium text-slate-600 mb-1">Full Name</label>
+                    <label class="block text-sm font-medium text-slate-600 mb-1">First Name</label>
                     <input id="login-name" type="text" required autocomplete="name"
                            class="w-full px-4 py-3 border border-slate-200 rounded-2xl focus:outline-none focus:border-sky-400 transition text-base">
                 </div>
-                <div>
-    <label class="block text-sm font-medium text-slate-600 mb-1">Full Name</label>
+               <div>
+    <label class="block text-sm font-medium text-slate-600 mb-1">Last Name</label>
     <input id="login-name" type="text" required autocomplete="name"
            class="w-full px-4 py-3 border border-slate-200 rounded-2xl focus:outline-none focus:border-sky-400 transition text-base">
 </div>
@@ -1168,7 +1168,7 @@ function logout() {
 // ──────────────────────────────────────────────
 function bootApp() {
     document.getElementById('login-page').classList.add('hidden')
-    //document.getElementById('main-app').classList.remove('hidden')
+    document.getElementById('main-app').classList.remove('hidden')
     document.getElementById('nav-name').textContent     = currentUser.name
     const gl = document.getElementById('nav-group-label')
     if (gl) gl.textContent = `${currentUser.hospital} • ${currentUser.department}`
