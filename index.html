@@ -906,9 +906,10 @@ function renderCalendar() {
             ${dayShifts.length?`
             <div class="flex flex-col gap-px">
                 ${dayShifts.map(s=>`
-                    <div class="text-[8px] sm:text-[10px] px-1.5 py-px rounded-lg text-white truncate" style="background:${s.color}">
-                    ${s.type || s.start+'-'+s.end}
-            </div>`).join('')}
+    <div onclick="event.stopPropagation(); openEditModal('${s.id}','${dateKey}')"
+         class="text-[8px] sm:text-[10px] px-1.5 py-px rounded-lg text-white truncate cursor-pointer hover:opacity-80 transition" style="background:${s.color}">
+        ${s.type || s.start+'-'+s.end}
+    </div>`).join('')}
             </div>`:''}
         </div>`
     }
@@ -923,6 +924,98 @@ function selectDate(dateKey) {
     document.getElementById('add-shift-modal').classList.remove('hidden')
     document.getElementById('add-shift-modal').classList.add('flex')
 }
+// ──────────────────────────────────────────────
+// EDIT SHIFT
+// ──────────────────────────────────────────────
+let editSelectedColor = '#0ea5e9'
+
+function openEditModal(shiftId, dateKey) {
+    // Find the shift in local cache
+    const dayShifts = shifts[dateKey] || []
+    const shift = dayShifts.find(s => s.id === shiftId)
+    if (!shift) return
+
+    document.getElementById('edit-shift-id').value    = shiftId
+    document.getElementById('edit-shift-date').value  = dateKey
+    document.getElementById('edit-modal-type').value  = shift.type  || ''
+    document.getElementById('edit-modal-start').value = shift.start || ''
+    document.getElementById('edit-modal-end').value   = shift.end   || ''
+    document.getElementById('edit-modal-notes').value = shift.notes || ''
+    editSelectedColor = shift.color || '#0ea5e9'
+
+    // Highlight the current color dot
+    document.querySelectorAll('.edit-color-dot').forEach(d => {
+        d.classList.remove('ring-2','ring-offset-2','ring-sky-400')
+        if (d.dataset.color === editSelectedColor) {
+            d.classList.add('ring-2','ring-offset-2','ring-sky-400')
+        }
+    })
+
+    const modal = document.getElementById('edit-shift-modal')
+    modal.classList.remove('hidden')
+    modal.classList.add('flex')
+}
+
+function hideEditModal() {
+    const m = document.getElementById('edit-shift-modal')
+    m.classList.add('hidden'); m.classList.remove('flex')
+}
+
+function selectEditColor(el) {
+    document.querySelectorAll('.edit-color-dot').forEach(d =>
+        d.classList.remove('ring-2','ring-offset-2','ring-sky-400'))
+    el.classList.add('ring-2','ring-offset-2','ring-sky-400')
+    editSelectedColor = el.dataset.color
+}
+
+async function updateShift() {
+    const shiftId = document.getElementById('edit-shift-id').value
+    const dateKey = document.getElementById('edit-shift-date').value
+    const type    = document.getElementById('edit-modal-type').value.trim()
+    const start   = document.getElementById('edit-modal-start').value
+    const end     = document.getElementById('edit-modal-end').value
+    const notes   = document.getElementById('edit-modal-notes').value
+
+    try {
+        await db.collection('shifts').doc(shiftId).update({
+            type, start, end, notes, color: editSelectedColor
+        })
+        // Update local cache
+        if (shifts[dateKey]) {
+            const idx = shifts[dateKey].findIndex(s => s.id === shiftId)
+            if (idx !== -1) {
+                shifts[dateKey][idx] = { ...shifts[dateKey][idx], type, start, end, notes, color: editSelectedColor }
+            }
+        }
+        hideEditModal()
+        renderCalendar()
+        showToast('Shift updated ✓')
+    } catch(err) {
+        console.error(err)
+        showToast('Error updating shift', '#ef4444')
+    }
+}
+
+async function deleteShift() {
+    const shiftId = document.getElementById('edit-shift-id').value
+    const dateKey = document.getElementById('edit-shift-date').value
+    if (!confirm('Delete this shift?')) return
+
+    try {
+        await db.collection('shifts').doc(shiftId).delete()
+        // Remove from local cache
+        if (shifts[dateKey]) {
+            shifts[dateKey] = shifts[dateKey].filter(s => s.id !== shiftId)
+            if (shifts[dateKey].length === 0) delete shifts[dateKey]
+        }
+        hideEditModal()
+        renderCalendar()
+        showToast('Shift deleted', '#64748b')
+    } catch(err) {
+        console.error(err)
+        showToast('Error deleting shift', '#ef4444')
+    }
+}    
 
 // ──────────────────────────────────────────────
 // MODAL
@@ -1049,6 +1142,7 @@ window.onload = function() {
     setupProfileUpload()
 }
 </script>
+    
 <!-- EDIT SHIFT MODAL -->
 <div id="edit-shift-modal" onclick="if(event.target===this)hideEditModal()"
      class="hidden fixed inset-0 bg-black/60 flex items-end sm:items-center justify-center z-[9999] p-0 sm:p-4">
