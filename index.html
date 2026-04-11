@@ -702,12 +702,12 @@ function updateWeather() {
 // ──────────────────────────────────────────────
 function startPresence() {
     if (!currentUser) return
-    const ref  = db.collection('presence').doc(currentUser.name)
+    const ref  = db.collection('groups').doc(currentUser.groupKey).collection('presence').doc(currentUser.name)
     const data = { name: currentUser.name, position: currentUser.position, avatar: currentUser.avatar || 'NONE', lastSeen: Date.now() }
     ref.set(data)
     presenceInterval = setInterval(() => ref.set({...data, lastSeen: Date.now()}), 30000)
     window.addEventListener('beforeunload', () => ref.delete())
-    db.collection('presence').onSnapshot(snap => {
+    db.collection('groups').doc(currentUser.groupKey).collection('presence').onSnapshot(snap => {
         const cutoff = Date.now() - 90000
         const online = []
         snap.forEach(doc => { const d = doc.data(); if(d.lastSeen > cutoff) online.push(d) })
@@ -735,7 +735,7 @@ function renderOnlineTeam(members) {
 // PROFILE — save to Firestore 'members' collection
 // ──────────────────────────────────────────────
 async function saveProfileToFirestore(user) {
-    await db.collection('members').doc(user.name).set({
+    await db.collection('groups').doc(currentUser.groupKey).collection('members').doc(user.name).set({
         name:      user.name,
         position:  user.position,
         avatar:    user.avatar || 'NONE',
@@ -787,7 +787,7 @@ async function renderMyProfile() {
     avatarEl.innerHTML = avatarHTML(currentUser, 64, '16px')
 
     // Shift count
-    const snap = await db.collection('shifts').where('userName','==',currentUser.name).get()
+    const snap = await db.collection('groups').doc(currentUser.groupKey).collection('shifts').where('userName','==',currentUser.name).get()
     document.getElementById('profile-shift-count').textContent = snap.size
 
     // Joined date
@@ -814,12 +814,12 @@ async function deleteMyProfile() {
         batch.delete(db.collection('members').doc(currentUser.name))
 
         // Delete presence
-        batch.delete(db.collection('presence').doc(currentUser.name))
+        batch.delete(db.collection('groups').doc(currentUser.groupKey).collection('presence').doc(currentUser.name))
 
         await batch.commit()
 
         // Delete all shifts for this user
-        const shiftSnap = await db.collection('shifts').where('userName','==',currentUser.name).get()
+        const shiftSnap = await db.collection('groups').doc(currentUser.groupKey).collection('shifts').where('userName','==',currentUser.name).get()
         const shiftBatch = db.batch()
         shiftSnap.forEach(doc => shiftBatch.delete(doc.ref))
         await shiftBatch.commit()
@@ -841,7 +841,7 @@ async function deleteMyProfile() {
 // SHIFTS
 // ──────────────────────────────────────────────
 async function loadMyShifts() {
-    const snap = await db.collection('shifts').where('userName','==',currentUser.name).get()
+    const snap = await db.collection('groups').doc(currentUser.groupKey).collection('shifts').where('userName','==',currentUser.name).get()
     shifts = {}
     snap.forEach(doc => {
         const d = doc.data()
@@ -860,7 +860,7 @@ async function saveShift() {
     if (!date) { showToast('Please pick a date', '#f59e0b'); return }
 
     try {
-        const docRef = await db.collection('shifts').add({
+        const docRef = await db.collection('groups').doc(currentUser.groupKey).collection('shifts').add({
             userName: currentUser.name, position: currentUser.position,
             avatar: currentUser.avatar || 'NONE',
             date, start, end, type, color: selectedColor, notes, createdAt: Date.now()
@@ -882,7 +882,7 @@ async function saveShift() {
 async function renderTeamRoster() {
     const container = document.getElementById('team-roster-content')
     container.innerHTML = '<p class="text-slate-400 text-sm col-span-3 py-8 text-center"><i class="fa-solid fa-spinner animate-spin mr-2"></i>Loading…</p>'
-    const snap = await db.collection('shifts').orderBy('date').get()
+    const snap = await db.collection('groups').doc(currentUser.groupKey).collection('shifts').orderBy('date').get()
     const byUser = {}
     snap.forEach(doc => {
         const d = doc.data()
@@ -921,7 +921,7 @@ async function renderTeamRoster() {
 // ──────────────────────────────────────────────
 function startChatListener() {
     if (chatUnsubscribe) chatUnsubscribe()
-    chatUnsubscribe = db.collection('chat')
+    chatUnsubscribe = db.collection('groups').doc(currentUser.groupKey).collection('chat')
         .orderBy('timestamp').limitToLast(100)
         .onSnapshot(snap => {
             const c = document.getElementById('chat-messages')
@@ -951,7 +951,7 @@ async function sendChatMessage() {
     if (!text || !currentUser) return
     input.value = ''
     try {
-        await db.collection('chat').add({
+        await db.collection('groups').doc(currentUser.groupKey).collection('chat').add({
             name: currentUser.name, position: currentUser.position,
             avatar: currentUser.avatar || 'NONE',
             text, time: nowTimeStr(),
@@ -1060,7 +1060,7 @@ async function updateShift() {
     const notes   = document.getElementById('edit-modal-notes').value
 
     try {
-        await db.collection('shifts').doc(shiftId).update({
+        await db.collection('groups').doc(currentUser.groupKey).collection('shifts').doc(shiftId).update({
             type, start, end, notes, color: editSelectedColor
         })
         // Update local cache
@@ -1085,7 +1085,7 @@ async function deleteShift() {
     if (!confirm('Delete this shift?')) return
 
     try {
-        await db.collection('shifts').doc(shiftId).delete()
+        await db.collection('groups').doc(currentUser.groupKey).collection('shifts').doc(shiftId).delete()
         // Remove from local cache
         if (shifts[dateKey]) {
             shifts[dateKey] = shifts[dateKey].filter(s => s.id !== shiftId)
@@ -1156,7 +1156,7 @@ function switchTheme(theme) {
 
 function logout() {
     if (!confirm('Log out of OT Roster Hub?')) return
-    if (currentUser) db.collection('presence').doc(currentUser.name).delete()
+    if (currentUser) db.collection('groups').doc(currentUser.groupKey).collection('presence').doc(currentUser.name).delete()
     if (presenceInterval) clearInterval(presenceInterval)
     if (chatUnsubscribe)  chatUnsubscribe()
     localStorage.removeItem('ot_current_user')
