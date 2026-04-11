@@ -1049,5 +1049,76 @@ window.onload = function() {
     setupProfileUpload()
 }
 </script>
+<!-- EDIT SHIFT MODAL -->
+<div id="edit-shift-modal" onclick="if(event.target===this)hideEditModal()"
+     class="hidden fixed inset-0 bg-black/60 flex items-end sm:items-center justify-center z-[9999] p-0 sm:p-4">
+    <div onclick="event.stopImmediatePropagation()"
+         class="modal modal-scroll bg-white w-full sm:max-w-lg sm:rounded-3xl rounded-t-3xl shadow-2xl">
+        <div class="p-5 sm:p-7">
+            <div class="flex items-center justify-between mb-5">
+                <h3 class="text-xl font-semibold">Edit Shift</h3>
+                <button onclick="hideEditModal()" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 hover:bg-slate-200">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <input id="edit-shift-id" type="hidden">
+                <input id="edit-shift-date" type="hidden">
+                <div>
+                    <label class="text-sm text-slate-500">Shift Name</label>
+                    <input id="edit-modal-type" type="text" placeholder="E.g. Morning Theatre, On-Call…"
+                           class="w-full mt-1 px-4 py-3 rounded-2xl border text-base" autocomplete="off">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-sm text-slate-500">Start</label>
+                        <input id="edit-modal-start" type="time" class="w-full mt-1 px-4 py-3 rounded-2xl border text-base">
+                    </div>
+                    <div>
+                        <label class="text-sm text-slate-500">End</label>
+                        <input id="edit-modal-end" type="time" class="w-full mt-1 px-4 py-3 rounded-2xl border text-base">
+                    </div>
+                </div>
+                <div>
+                    <label class="text-sm text-slate-500">Color</label>
+                    <div class="grid grid-cols-9 gap-2 mt-2">
+                        <div onclick="selectEditColor(this)" data-color="#0ea5e9" class="edit-color-dot w-8 h-8 rounded-xl cursor-pointer border-2 border-white shadow" style="background:#0ea5e9" title="Sky Blue"></div>
+                        <div onclick="selectEditColor(this)" data-color="#3b82f6" class="edit-color-dot w-8 h-8 rounded-xl cursor-pointer border-2 border-white shadow" style="background:#3b82f6" title="Blue"></div>
+                        <div onclick="selectEditColor(this)" data-color="#6366f1" class="edit-color-dot w-8 h-8 rounded-xl cursor-pointer border-2 border-white shadow" style="background:#6366f1" title="Indigo"></div>
+                        <div onclick="selectEditColor(this)" data-color="#8b5cf6" class="edit-color-dot w-8 h-8 rounded-xl cursor-pointer border-2 border-white shadow" style="background:#8b5cf6" title="Purple"></div>
+                        <div onclick="selectEditColor(this)" data-color="#ec4899" class="edit-color-dot w-8 h-8 rounded-xl cursor-pointer border-2 border-white shadow" style="background:#ec4899" title="Pink"></div>
+                        <div onclick="selectEditColor(this)" data-color="#ef4444" class="edit-color-dot w-8 h-8 rounded-xl cursor-pointer border-2 border-white shadow" style="background:#ef4444" title="Red"></div>
+                        <div onclick="selectEditColor(this)" data-color="#f97316" class="edit-color-dot w-8 h-8 rounded-xl cursor-pointer border-2 border-white shadow" style="background:#f97316" title="Orange"></div>
+                        <div onclick="selectEditColor(this)" data-color="#f59e0b" class="edit-color-dot w-8 h-8 rounded-xl cursor-pointer border-2 border-white shadow" style="background:#f59e0b" title="Amber"></div>
+                        <div onclick="selectEditColor(this)" data-color="#eab308" class="edit-color-dot w-8 h-8 rounded-xl cursor-pointer border-2 border-white shadow" style="background:#eab308" title="Yellow"></div>
+                        <div onclick="selectEditColor(this)" data-color="#84cc16" class="edit-color-dot w-8 h-8 rounded-xl cursor-pointer border-2 border-white shadow" style="background:#84cc16" title="Lime"></div>
+                        <div onclick="selectEditColor(this)" data-color="#10b981" class="edit-color-dot w-8 h-8 rounded-xl cursor-pointer border-2 border-white shadow" style="background:#10b981" title="Emerald"></div>
+                        <div onclick="selectEditColor(this)" data-color="#14b8a6" class="edit-color-dot w-8 h-8 rounded-xl cursor-pointer border-2 border-white shadow" style="background:#14b8a6" title="Teal"></div>
+                        <div onclick="selectEditColor(this)" data-color="#06b6d4" class="edit-color-dot w-8 h-8 rounded-xl cursor-pointer border-2 border-white shadow" style="background:#06b6d4" title="Cyan"></div>
+                        <div onclick="selectEditColor(this)" data-color="#64748b" class="edit-color-dot w-8 h-8 rounded-xl cursor-pointer border-2 border-white shadow" style="background:#64748b" title="Slate"></div>
+                        <div onclick="selectEditColor(this)" data-color="#78716c" class="edit-color-dot w-8 h-8 rounded-xl cursor-pointer border-2 border-white shadow" style="background:#78716c" title="Stone"></div>
+                        <div onclick="selectEditColor(this)" data-color="#dc2626" class="edit-color-dot w-8 h-8 rounded-xl cursor-pointer border-2 border-white shadow" style="background:#dc2626" title="Dark Red"></div>
+                        <div onclick="selectEditColor(this)" data-color="#7c3aed" class="edit-color-dot w-8 h-8 rounded-xl cursor-pointer border-2 border-white shadow" style="background:#7c3aed" title="Violet"></div>
+                        <div onclick="selectEditColor(this)" data-color="#0f766e" class="edit-color-dot w-8 h-8 rounded-xl cursor-pointer border-2 border-white shadow" style="background:#0f766e" title="Dark Teal"></div>
+                    </div>
+                </div>
+                <div>
+                    <label class="text-sm text-slate-500">Notes <span class="text-slate-400 font-normal">(optional)</span></label>
+                    <textarea id="edit-modal-notes" rows="2" class="w-full mt-1 px-4 py-3 rounded-2xl border resize-none text-base"></textarea>
+                </div>
+            </div>
+            <div class="flex gap-3 mt-6">
+                <button onclick="deleteShift()"
+                        class="py-3 px-5 border border-red-200 text-red-400 hover:bg-red-50 font-medium rounded-2xl text-sm flex items-center gap-2 transition">
+                    <i class="fa-solid fa-trash-can"></i> Delete
+                </button>
+                <button onclick="hideEditModal()"
+                        class="flex-1 py-3 text-slate-500 font-medium rounded-2xl border text-sm">Cancel</button>
+                <button onclick="updateShift()"
+                        class="flex-1 py-3 bg-gradient-to-r from-teal-600 to-sky-600 text-white font-semibold rounded-2xl text-sm">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>    
 </body>
 </html>
