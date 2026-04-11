@@ -1168,7 +1168,7 @@ function logout() {
 // ──────────────────────────────────────────────
 function bootApp() {
     document.getElementById('login-page').classList.add('hidden')
-    document.getElementById('main-app').classList.remove('hidden')
+    //document.getElementById('main-app').classList.remove('hidden')
     document.getElementById('nav-name').textContent     = currentUser.name
     const gl = document.getElementById('nav-group-label')
     if (gl) gl.textContent = `${currentUser.hospital} • ${currentUser.department}`
