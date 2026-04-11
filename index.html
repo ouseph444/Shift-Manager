@@ -1121,6 +1121,8 @@ function bootApp() {
     document.getElementById('nav-position').textContent = currentUser.position
     setNavAvatar()
     switchTheme(localStorage.getItem('ot_theme') || 'medical-blue')
+    // Load correct national holidays for this user's country
+    HOLIDAYS = HOLIDAYS_BY_COUNTRY[currentUser.country] || {}
     loadMyShifts()
     startPresence()
     startClock()
