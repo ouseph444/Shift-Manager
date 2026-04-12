@@ -1,0 +1,91 @@
+# 🏥 OT Roster Hub
+### Operation Theater Shift & Team Manager
+
+A mobile-friendly web app for hospital staff to manage shifts, view team rosters, and chat in real time — organised by hospital and department.
+
+---
+
+## 📱 Install on Your Phone
+
+OT Roster Hub works like a native app on both iPhone and Android. No App Store needed.
+
+### iPhone (Safari)
+
+1. Open the app URL in **Safari** (must be Safari, not Chrome)
+2. Tap the **Share button** at the bottom of the screen — it looks like a box with an arrow pointing up ⬆
+3. Scroll down and tap **"Add to Home Screen"**
+4. Edit the name if you like, then tap **Add**
+5. The app icon now appears on your home screen — tap it to open like any other app
+
+> ⚠️ This only works in Safari on iPhone. If you are using Chrome or another browser, switch to Safari first.
+
+---
+
+### Android (Chrome)
+
+1. Open the app URL in **Chrome**
+2. Chrome may automatically show a pop-up banner at the bottom saying **"Add to Home Screen"** — tap it
+3. If the banner doesn't appear, tap the **three-dot menu** (⋮) in the top right corner
+4. Tap **"Install App"** or **"Add to Home Screen"**
+5. Tap **Install** — the app icon appears in your app drawer and home screen
+
+---
+
+## ✨ Features
+
+- 📅 **My Calendar** — add and manage your personal shifts with custom colours and names
+- 👥 **Team Roster** — see all shifts for your department in real time
+- 💬 **Team Chat** — live group chat shared across all team members
+- 🪪 **Members** — see everyone registered in your hospital and department
+- 👤 **My Profile** — view your stats, change theme, delete your account
+- 🗄 **My Data** — see exactly what data is stored against your account
+
+---
+
+## 🔒 Privacy & Security
+
+- Your data is **isolated by hospital and department** — users from other hospitals or departments cannot see your data
+- All data is stored securely in **Google Firebase Firestore**
+- Deleting your profile permanently removes all your shifts, messages, and member record
+
+---
+
+## 🌍 Supported Countries & Holidays
+
+The app automatically loads public holidays for your country from an external API. Currently supported:
+
+| Country | Code |
+|---|---|
+| Australia | AU |
+| United States | US |
+| United Kingdom | GB |
+| Canada | CA |
+| New Zealand | NZ |
+| Ireland | IE |
+| India | IN |
+| South Africa | ZA |
+
+---
+
+## 🛠 Built With
+
+- [Firebase Firestore](https://firebase.google.com) — real-time database
+- [Tailwind CSS](https://tailwindcss.com) — styling
+- [Font Awesome](https://fontawesome.com) — icons
+- [Nager.Date API](https://date.nager.at) — public holidays
+- Hosted on [GitHub Pages](https://pages.github.com) — free hosting
+
+---
+
+## 📋 First Time Setup
+
+1. Open the app URL in your browser
+2. Enter your **Full Name**, **Position**, **Hospital**, **Department**, and **Country**
+3. Tap **Enter the OR**
+4. Your profile is created and saved — colleagues at the same hospital and department will see you in Members
+
+> 💡 Tip: Make sure your hospital name and department match **exactly** with your colleagues (same spelling, same capitalisation) so you end up in the same group.
+
+---
+
+*OT Roster Hub — Built for theatre teams, by theatre teams.*
