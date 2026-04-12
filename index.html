@@ -1671,7 +1671,7 @@
                     name,
                     position,
                     hospital,
-                    hospitalId: hospital.toLowerCase().replace(/\s+/g, '_'),
+                    hospitalId: hospital.toLowerCase().trim().replace(/\s+/g, '_'),
                     department,
                     country,
                     avatar: profilePicBase64 || 'NONE',
