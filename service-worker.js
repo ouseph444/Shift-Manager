@@ -1,7 +1,7 @@
 const CACHE = 'ot-roster-v1'
 const ASSETS = [
-  '/',
-  '/index.html',
+  '/Shift-Manager/',
+  '/Shift-Manager/index.html',
   'https://cdn.tailwindcss.com',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css'
 ]
