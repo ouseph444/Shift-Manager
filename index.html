@@ -1645,11 +1645,17 @@
 
         async function handleLogin(e) {
             e.preventDefault()
-            const name = document.getElementById('login-name').value.trim()
+            // Normalise all text inputs to avoid case sensitivity issues
+            const rawName = document.getElementById('login-name').value.trim()
+            const name = rawName.replace(/\b\w/g, c => c.toUpperCase()) // Title Case: "john smith" → "John Smith"
+
             const position = document.getElementById('login-position').value
-            const hospital = document.getElementById('login-hospital').value.trim()
-            const department = document.getElementById('login-department').value
-            const country = document.getElementById('login-country').value
+
+            const rawHospital = document.getElementById('login-hospital').value.trim()
+            const hospital = rawHospital.replace(/\b\w/g, c => c.toUpperCase()) // Title Case: "royal adelaide" → "Royal Adelaide"
+
+            const department = document.getElementById('login-department').value // dropdown — already safe
+            const country = document.getElementById('login-country').value       // dropdown — already safe
 
             if (!name || !position || !hospital) return
 
