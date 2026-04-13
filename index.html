@@ -1709,97 +1709,431 @@
             }
         }
 
-        class PandaPet {
-            constructor() {
-                this.container = document.getElementById('dr-panda-container')
-                this.svg = document.getElementById('panda-svg')
-                this.mood = document.getElementById('panda-mood')
-                this.x = Math.random() * (window.innerWidth - 100)
-                this.y = Math.random() * (window.innerHeight - 100)
-                this.dragging = false
-                this.state = 'idle'
-                this.init()
-            }
-            init() {
-                this.container.style.left = this.x + 'px'
-                this.container.style.top = this.y + 'px'
-                this.container.addEventListener('pointerdown', e => this.onStart(e))
-                window.addEventListener('pointermove', e => this.onMove(e))
-                window.addEventListener('pointerup', () => this.onEnd())
-                this.container.addEventListener('click', () => this.onClick())
-                setInterval(() => this.randomBehavior(), 5000)
-            }
-            show() { this.container.classList.remove('hidden') }
-            hide() { this.container.classList.add('hidden') }
-            onStart(e) {
-                this.dragging = true
-                this.container.classList.remove('panda-breathe')
-                this.offset = { x: e.clientX - this.x, y: e.clientY - this.y }
-            }
-            onMove(e) {
-                if (!this.dragging) return
-                this.x = e.clientX - this.offset.x
-                this.y = e.clientY - this.offset.y
-                this.container.style.left = this.x + 'px'
-                this.container.style.top = this.y + 'px'
-            }
-            onEnd() {
-                if (!this.dragging) return
-                this.dragging = false
-                this.container.classList.add('panda-breathe')
-                localStorage.setItem('ot_pet_pos', JSON.stringify({ x: this.x, y: this.y }))
-            }
-            onClick() {
-                if (this.dragging) return
-                const reactions = ['👋 Hello!', '❤️ Love OR!', '🩺 Heart OK', '🐼 Yawn...', '💤 Ready?']
-                const r = reactions[Math.floor(Math.random() * reactions.length)]
-                this.showMood(r)
-                this.container.classList.add('scale-110')
-                setTimeout(() => this.container.classList.remove('scale-110'), 300)
-            }
-            showMood(text) {
-                this.mood.textContent = text
-                this.mood.classList.remove('hidden')
-                setTimeout(() => this.mood.classList.add('hidden'), 2000)
-            }
-            randomBehavior() {
-                if (this.dragging || this.container.classList.contains('hidden')) return
-                if (Math.random() > 0.7) {
-                    const dx = (Math.random() - 0.5) * 100
-                    const dy = (Math.random() - 0.5) * 100
-                    this.x = Math.max(0, Math.min(window.innerWidth - 80, this.x + dx))
-                    this.y = Math.max(0, Math.min(window.innerHeight - 80, this.y + dy))
-                    this.container.style.left = this.x + 'px'
-                    this.container.style.top = this.y + 'px'
-                }
-            }
+       class PandaPet {
+    constructor() {
+        this.container = document.getElementById('dr-panda-container')
+        this.svg = document.getElementById('panda-svg')
+        this.mood = document.getElementById('panda-mood')
+        this.x = window.innerWidth - 120
+        this.y = window.innerHeight - 200
+        this.dragging = false
+        this.state = 'idle'
+        this.blinkInterval = null
+        this.wanderInterval = null
+        this.speechTimeout = null
+        this.idleTime = 0
+        this.clickCount = 0
+        this.init()
+    }
 
+    init() {
+        this.container.style.left = this.x + 'px'
+        this.container.style.top  = this.y + 'px'
+
+        // Restore saved position
+        const saved = localStorage.getItem('ot_pet_pos')
+        if (saved) {
+            const pos = JSON.parse(saved)
+            this.x = pos.x; this.y = pos.y
+            this.container.style.left = this.x + 'px'
+            this.container.style.top  = this.y + 'px'
         }
 
-        window.onload = function () {
-            const saved = localStorage.getItem('ot_current_user')
-            if (saved) {
-                currentUser = JSON.parse(saved)
-                bootApp()
-            }
-            document.getElementById('login-form').addEventListener('submit', handleLogin)
-            //setupProfileUpload()
+        this.container.addEventListener('pointerdown', e => this.onStart(e))
+        window.addEventListener('pointermove', e => this.onMove(e))
+        window.addEventListener('pointerup', () => this.onEnd())
+        this.container.addEventListener('click', () => this.onClick())
 
-            // Handle tab visibility for titles
-            window.addEventListener('visibilitychange', () => {
-                if (!document.hidden && currentPage === 3) {
-                    document.title = originalTitle
-                }
-            })
+        // Upgrade the SVG with extra features
+        this.upgradeSVG()
+
+        // Start all behaviours
+        this.startBlinking()
+        this.startWandering()
+        this.startIdleChecker()
+        this.startTimeAwareness()
+        this.listenToPage()
+    }
+
+    // ── SVG UPGRADE ──────────────────────────────────
+    upgradeSVG() {
+        // Add doctor cap, blush cheeks, sparkle effect
+        this.svg.innerHTML = `
+        <defs>
+            <radialGradient id="bodyGrad" cx="50%" cy="40%" r="60%">
+                <stop offset="0%" stop-color="#ffffff"/>
+                <stop offset="100%" stop-color="#f0f0f0"/>
+            </radialGradient>
+            <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="var(--brand-200)" stop-opacity="0.6"/>
+                <stop offset="100%" stop-color="var(--brand-200)" stop-opacity="0"/>
+            </radialGradient>
+            <filter id="soft">
+                <feGaussianBlur stdDeviation="0.8"/>
+            </filter>
+        </defs>
+
+        <!-- Glow background -->
+        <circle id="panda-glow" cx="50" cy="55" r="38" fill="url(#bgGlow)" opacity="0"/>
+
+        <!-- Shadow -->
+        <ellipse cx="50" cy="96" rx="22" ry="4" fill="#00000015"/>
+
+        <!-- Body -->
+        <circle cx="50" cy="67" r="26" fill="url(#bodyGrad)" stroke="#d1d5db" stroke-width="1.5"/>
+
+        <!-- Arms -->
+        <ellipse cx="22" cy="70" rx="8" ry="5" fill="#333" transform="rotate(-20 22 70)"/>
+        <ellipse cx="78" cy="70" rx="8" ry="5" fill="#333" transform="rotate(20 78 70)"/>
+
+        <!-- Belly spot -->
+        <ellipse cx="50" cy="70" rx="13" ry="14" fill="#f8f8f8"/>
+
+        <!-- Stethoscope -->
+        <path d="M38 62 Q50 80 62 62" fill="none" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="50" cy="82" r="5" fill="#64748b" stroke="#475569" stroke-width="1"/>
+        <circle cx="50" cy="82" r="2.5" fill="#94a3b8"/>
+        <line x1="38" y1="62" x2="33" y2="55" stroke="#94a3b8" stroke-width="2"/>
+        <line x1="62" y1="62" x2="67" y2="55" stroke="#94a3b8" stroke-width="2"/>
+        <ellipse cx="33" cy="53" rx="3" ry="2" fill="#64748b"/>
+        <ellipse cx="67" cy="53" rx="3" ry="2" fill="#64748b"/>
+
+        <!-- Head -->
+        <circle cx="50" cy="38" r="26" fill="url(#bodyGrad)" stroke="#d1d5db" stroke-width="1.5"/>
+
+        <!-- Ears -->
+        <circle cx="26" cy="18" r="9" fill="#222"/>
+        <circle cx="74" cy="18" r="9" fill="#222"/>
+        <circle cx="26" cy="18" r="4" fill="#555"/>
+        <circle cx="74" cy="18" r="4" fill="#555"/>
+
+        <!-- Eye patches -->
+        <ellipse cx="38" cy="36" rx="9" ry="10" fill="#1a1a1a" transform="rotate(-5 38 36)"/>
+        <ellipse cx="62" cy="36" rx="9" ry="10" fill="#1a1a1a" transform="rotate(5 62 36)"/>
+
+        <!-- Eyes (whites) -->
+        <circle id="left-eye-white" cx="38" cy="35" r="5" fill="white"/>
+        <circle id="right-eye-white" cx="62" cy="35" r="5" fill="white"/>
+
+        <!-- Pupils -->
+        <circle id="left-pupil" cx="39" cy="35" r="3" fill="#111"/>
+        <circle id="right-pupil" cx="63" cy="35" r="3" fill="#111"/>
+
+        <!-- Eye shine -->
+        <circle cx="40" cy="33" r="1.2" fill="white"/>
+        <circle cx="64" cy="33" r="1.2" fill="white"/>
+
+        <!-- Blink layers (hidden) -->
+        <ellipse id="left-blink" cx="38" cy="35" rx="9" ry="0" fill="#1a1a1a"/>
+        <ellipse id="right-blink" cx="62" cy="35" rx="9" ry="0" fill="#1a1a1a"/>
+
+        <!-- Blush cheeks -->
+        <ellipse id="left-blush" cx="26" cy="42" rx="6" ry="3.5" fill="#fda4af" opacity="0" filter="url(#soft)"/>
+        <ellipse id="right-blush" cx="74" cy="42" rx="6" ry="3.5" fill="#fda4af" opacity="0" filter="url(#soft)"/>
+
+        <!-- Nose -->
+        <ellipse cx="50" cy="44" rx="4" ry="2.5" fill="#333"/>
+
+        <!-- Mouth -->
+        <path id="panda-mouth" d="M44 49 Q50 54 56 49" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round"/>
+
+        <!-- Doctor cap -->
+        <rect x="28" y="14" width="44" height="7" rx="3" fill="#1e293b"/>
+        <rect x="24" y="11" width="52" height="5" rx="2.5" fill="#334155"/>
+        <rect x="46" y="6" width="8" height="6" rx="1" fill="#1e293b"/>
+        <rect x="44" y="4" width="12" height="4" rx="2" fill="#334155"/>
+
+        <!-- Sparkles (hidden by default) -->
+        <g id="sparkles" opacity="0">
+            <text x="8" y="20" font-size="10" fill="#fbbf24">✨</text>
+            <text x="72" y="15" font-size="8" fill="#fbbf24">⭐</text>
+            <text x="5" y="55" font-size="7" fill="#a78bfa">💫</text>
+            <text x="78" y="50" font-size="9" fill="#fbbf24">✨</text>
+        </g>
+
+        <!-- Party hat (hidden) -->
+        <g id="party-hat" opacity="0">
+            <polygon points="50,2 34,18 66,18" fill="#f43f5e"/>
+            <polygon points="50,2 34,18 50,18" fill="#fb923c"/>
+            <line x1="34" y1="18" x2="66" y2="18" stroke="#fbbf24" stroke-width="2"/>
+            <circle cx="50" cy="2" r="2" fill="#fbbf24"/>
+        </g>
+
+        <!-- Zzz (hidden, for sleeping) -->
+        <g id="zzz-group" opacity="0">
+            <text x="62" y="22" font-size="8" fill="#94a3b8" font-weight="bold">z</text>
+            <text x="68" y="16" font-size="10" fill="#94a3b8" font-weight="bold">z</text>
+            <text x="75" y="9" font-size="12" fill="#94a3b8" font-weight="bold">Z</text>
+        </g>`
+    }
+
+    show() {
+        this.container.classList.remove('hidden')
+        this.speak('👋 I\'m Dr. Panda!')
+        this.showGlow()
+    }
+
+    hide() {
+        this.speak('😴 Bye!')
+        setTimeout(() => this.container.classList.add('hidden'), 1000)
+    }
+
+    // ── DRAGGING ─────────────────────────────────────
+    onStart(e) {
+        this.dragging = true
+        this.container.style.transition = 'none'
+        this.offset = { x: e.clientX - this.x, y: e.clientY - this.y }
+        this.setState('excited')
+    }
+
+    onMove(e) {
+        if (!this.dragging) return
+        this.x = Math.max(0, Math.min(window.innerWidth  - 90, e.clientX - this.offset.x))
+        this.y = Math.max(0, Math.min(window.innerHeight - 90, e.clientY - this.offset.y))
+        this.container.style.left = this.x + 'px'
+        this.container.style.top  = this.y + 'px'
+    }
+
+    onEnd() {
+        if (!this.dragging) return
+        this.dragging = false
+        this.container.style.transition = 'left 0.4s ease, top 0.4s ease'
+        localStorage.setItem('ot_pet_pos', JSON.stringify({ x: this.x, y: this.y }))
+        this.setState('idle')
+    }
+
+    // ── CLICK COMBOS ─────────────────────────────────
+    onClick() {
+        if (this.dragging) return
+        this.clickCount++
+        this.idleTime = 0
+
+        if (this.clickCount === 1) {
+            const greetings = ['Hi there! 👋', '🩺 How are you?', '💊 Stay healthy!', '🐼 *yawns*', 'Ready to work? 💪', '🏥 OR is ready!']
+            this.speak(greetings[Math.floor(Math.random() * greetings.length)])
+            this.bounce()
+        } else if (this.clickCount === 3) {
+            this.speak('🌟 Triple tap!')
+            this.showSparkles()
+        } else if (this.clickCount === 5) {
+            this.speak('🎉 5 clicks! Party!')
+            this.partyMode()
+            this.clickCount = 0
+        } else {
+            this.bounce()
         }
-        // Register service worker for PWA
-        if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
-            .then(() => console.log('PWA ready'))
-            .catch(err => console.log('SW error:', err))
-          })
-         }
+
+        // Reset click count after 2s
+        clearTimeout(this._clickReset)
+        this._clickReset = setTimeout(() => this.clickCount = 0, 2000)
+    }
+
+    // ── STATES ───────────────────────────────────────
+    setState(state) {
+        this.state = state
+        const mouth = document.getElementById('panda-mouth')
+        const lb = document.getElementById('left-blush')
+        const rb = document.getElementById('right-blush')
+
+        if (state === 'happy') {
+            if (mouth) mouth.setAttribute('d', 'M43 49 Q50 56 57 49')
+            this.setBlush(0.8)
+            this.showGlow()
+        } else if (state === 'excited') {
+            if (mouth) mouth.setAttribute('d', 'M42 48 Q50 57 58 48')
+            this.setBlush(1)
+        } else if (state === 'sleeping') {
+            if (mouth) mouth.setAttribute('d', 'M46 50 Q50 50 54 50')
+            this.setBlush(0)
+            this.showZzz(true)
+        } else {
+            if (mouth) mouth.setAttribute('d', 'M44 49 Q50 54 56 49')
+            this.setBlush(0)
+            this.showZzz(false)
+        }
+    }
+
+    setBlush(opacity) {
+        const lb = document.getElementById('left-blush')
+        const rb = document.getElementById('right-blush')
+        if (lb) lb.style.opacity = opacity
+        if (rb) rb.style.opacity = opacity
+    }
+
+    // ── BLINKING ─────────────────────────────────────
+    startBlinking() {
+        const blink = () => {
+            if (this.state === 'sleeping') return
+            const lb = document.getElementById('left-blink')
+            const rb = document.getElementById('right-blink')
+            if (!lb || !rb) return
+
+            // Close eyes
+            lb.animate([{ry:0},{ry:5},{ry:0}], {duration:200, easing:'ease-in-out'})
+            rb.animate([{ry:0},{ry:5},{ry:0}], {duration:200, easing:'ease-in-out'})
+        }
+        // Blink every 3-5 seconds randomly
+        const scheduleBlink = () => {
+            const delay = 3000 + Math.random() * 2000
+            this.blinkInterval = setTimeout(() => { blink(); scheduleBlink() }, delay)
+        }
+        scheduleBlink()
+    }
+
+    // ── EYE TRACKING ─────────────────────────────────
+    startWandering() {
+        // Eyes follow the mouse subtly
+        window.addEventListener('mousemove', e => {
+            if (this.state === 'sleeping' || this.dragging) return
+            const rect = this.container.getBoundingClientRect()
+            const cx = rect.left + 50
+            const cy = rect.top + 38
+            const dx = e.clientX - cx
+            const dy = e.clientY - cy
+            const dist = Math.sqrt(dx*dx + dy*dy)
+            const maxShift = 1.5
+            const nx = dist > 0 ? (dx / dist) * Math.min(maxShift, dist / 80) : 0
+            const ny = dist > 0 ? (dy / dist) * Math.min(maxShift, dist / 80) : 0
+            const lp = document.getElementById('left-pupil')
+            const rp = document.getElementById('right-pupil')
+            if (lp) { lp.setAttribute('cx', 39 + nx); lp.setAttribute('cy', 35 + ny) }
+            if (rp) { rp.setAttribute('cx', 63 + nx); rp.setAttribute('cy', 35 + ny) }
+        })
+
+        // Random wander every 8-15s
+        const wander = () => {
+            if (!this.dragging && this.state !== 'sleeping') {
+                const newX = Math.max(10, Math.min(window.innerWidth  - 90, this.x + (Math.random()-0.5)*120))
+                const newY = Math.max(10, Math.min(window.innerHeight - 90, this.y + (Math.random()-0.5)*80))
+                this.container.style.transition = 'left 1.2s cubic-bezier(.4,0,.2,1), top 1.2s cubic-bezier(.4,0,.2,1)'
+                this.x = newX; this.y = newY
+                this.container.style.left = newX + 'px'
+                this.container.style.top  = newY + 'px'
+            }
+            this.wanderInterval = setTimeout(wander, 8000 + Math.random()*7000)
+        }
+        this.wanderInterval = setTimeout(wander, 10000)
+    }
+
+    // ── IDLE SLEEP ───────────────────────────────────
+    startIdleChecker() {
+        setInterval(() => {
+            if (this.dragging) return
+            this.idleTime += 15
+            if (this.idleTime > 60 && this.state !== 'sleeping') {
+                this.setState('sleeping')
+                this.speak('💤 Zzzz…')
+            }
+        }, 15000)
+
+        // Wake on any interaction
+        ;['click','pointermove','keydown'].forEach(ev => {
+            window.addEventListener(ev, () => {
+                if (this.state === 'sleeping') {
+                    this.setState('happy')
+                    this.speak('😲 Oh! I\'m up!')
+                }
+                this.idleTime = 0
+            }, { passive: true })
+        })
+    }
+
+    // ── TIME AWARENESS ───────────────────────────────
+    startTimeAwareness() {
+        const check = () => {
+            const h = new Date().getHours()
+            if (h >= 6  && h < 9)  this.speak('🌅 Good morning! Early shift?')
+            if (h >= 12 && h < 13) this.speak('🍱 Lunch break! Rest up.')
+            if (h >= 17 && h < 18) this.speak('🌇 End of day! Great work!')
+            if (h >= 22 || h < 5)  this.speak('🌙 Late night shift? Stay safe!')
+        }
+        // Check on load then every hour
+        setTimeout(check, 3000)
+        setInterval(check, 3600000)
+    }
+
+    // ── PAGE REACTIONS ───────────────────────────────
+    listenToPage() {
+        // React when user switches pages
+        const originalShowPage = window.showPage
+        if (originalShowPage) {
+            window.showPage = (n) => {
+                originalShowPage(n)
+                const msgs = {
+                    1: '📅 Checking calendar!',
+                    2: '👥 Viewing the team!',
+                    3: '💬 Chat time!',
+                    4: '🪪 Who\'s in the team?',
+                    5: '⚙️ Profile settings!',
+                    6: '🗄 Checking your data!'
+                }
+                if (msgs[n]) setTimeout(() => this.speak(msgs[n]), 400)
+            }
+        }
+    }
+
+    // ── ANIMATIONS ───────────────────────────────────
+    bounce() {
+        this.container.animate([
+            {transform:'scale(1)'},
+            {transform:'scale(1.2) rotate(-5deg)'},
+            {transform:'scale(0.95) rotate(3deg)'},
+            {transform:'scale(1)'}
+        ], {duration:400, easing:'ease-in-out'})
+    }
+
+    showGlow() {
+        const glow = document.getElementById('panda-glow')
+        if (!glow) return
+        glow.animate([{opacity:0},{opacity:0.8},{opacity:0}], {duration:1000, easing:'ease-in-out'})
+    }
+
+    showSparkles() {
+        const sp = document.getElementById('sparkles')
+        if (!sp) return
+        sp.animate([{opacity:0},{opacity:1},{opacity:0}], {duration:1500, easing:'ease-in-out'})
+        this.setState('happy')
+        this.bounce()
+    }
+
+    partyMode() {
+        const hat = document.getElementById('party-hat')
+        if (hat) hat.animate([{opacity:0},{opacity:1},{opacity:1},{opacity:0}], {duration:3000})
+        this.showSparkles()
+        this.setState('excited')
+        this.setBlush(1)
+        this.bounce()
+
+        // Spin!
+        this.container.animate([
+            {transform:'rotate(0deg) scale(1)'},
+            {transform:'rotate(180deg) scale(1.3)'},
+            {transform:'rotate(360deg) scale(1)'}
+        ], {duration:1000, easing:'ease-in-out'})
+
+        setTimeout(() => { this.setState('happy'); this.setBlush(0.3) }, 3000)
+    }
+
+    showZzz(show) {
+        const z = document.getElementById('zzz-group')
+        if (!z) return
+        z.style.opacity = show ? '1' : '0'
+    }
+
+    // ── SPEECH BUBBLE ────────────────────────────────
+    speak(text) {
+        if (!this.mood) return
+        clearTimeout(this.speechTimeout)
+        this.mood.textContent = text
+        this.mood.classList.remove('hidden')
+        this.mood.style.animation = 'none'
+        this.mood.offsetHeight // reflow
+        this.mood.style.animation = 'speechPop 0.3s ease'
+        this.speechTimeout = setTimeout(() => {
+            this.mood.classList.add('hidden')
+        }, 3000)
+    }
+}
     </script>
 
     <!-- EDIT SHIFT MODAL -->
