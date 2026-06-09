@@ -1,6 +1,0 @@
-graph TD
-    A[User Mobile Browser] -->|HTTPS| B[GitHub Pages CDN]
-    B -->|Serves| C[HTML / Tailwind / JS]
-    C -->|Real-time Sync| D[(Firebase Firestore)]
-    D -->|Isolated Data| E[Hospital/Dept Groups]
-    C -->|Fetch Holidays| F[Nager.Date API]
