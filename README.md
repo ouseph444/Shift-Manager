@@ -1,308 +1,177 @@
-make the following Readme.md file attractive <div align="center">
 # 🏥 OT Roster Hub
-### Operation Theatre Shift & Team Management Platform
-<img src="https://img.shields.io/badge/Platform-Web%20App-blue?style=for-the-badge" />
-<img src="https://img.shields.io/badge/Mobile-Friendly-success?style=for-the-badge" />
-<img src="https://img.shields.io/badge/Real-Time-Collaboration-orange?style=for-the-badge" />
-<img src="https://img.shields.io/badge/Firebase-Powered-yellow?style=for-the-badge" />
-### 📅 Manage Shifts • 👥 Coordinate Teams • 💬 Communicate Instantly
-*A modern digital workspace built specifically for Operating Theatre teams.*
-</div>
----
-## 🌟 Overview
-OT Roster Hub is a mobile-friendly workforce management platform designed for:
-🏥 Hospitals
-🩺 Operating Theatres
-👨‍⚕️ Surgeons
-👩‍⚕️ Nurses
-🧑‍⚕️ Anaesthetic Teams
-⚕️ Clinical Staff
-The platform allows theatre teams to manage rosters, collaborate in real time, and stay connected across departments and hospitals.
----
-## 🎯 What Problems Does It Solve?
-```text
-Traditional Theatre Rosters
-        │
-        ▼
-❌ Paper Schedules
-❌ Spreadsheet Chaos
-❌ Lost Messages
-❌ Shift Conflicts
-❌ Limited Visibility
-        ▼
-🏥 OT Roster Hub
-✅ Real-Time Updates
-✅ Team Coordination
-✅ Mobile Access
-✅ Instant Communication
-✅ Department Isolation
-```
----
-# 📱 Install Like a Native App
-No App Store required.
-Install directly from your browser.
----
-## 🍎 iPhone Installation
-```text
-Safari
-   │
-   ▼
-Share Button
-   │
-   ▼
-Add to Home Screen
-   │
-   ▼
-Install
-```
-### Steps
-1️⃣ Open the application in **Safari**
-2️⃣ Tap the **Share** button ⬆️
-3️⃣ Select **Add to Home Screen**
-4️⃣ Tap **Add**
-5️⃣ Launch directly from your Home Screen
-> ⚠️ Installation only works through Safari on iOS.
----
-## 🤖 Android Installation
-```text
-Chrome
-   │
-   ▼
-Menu (⋮)
-   │
-   ▼
-Install App
-   │
-   ▼
-Done
-```
-### Steps
-1️⃣ Open the application in Chrome
-2️⃣ Tap the installation banner
-OR
-3️⃣ Open the Chrome menu (⋮)
-4️⃣ Select **Install App**
-5️⃣ Confirm installation
----
-# ✨ Core Features
----
-## 📅 My Calendar
-### Personal Shift Management
-```text
-My Calendar
-├── Morning Shift
-├── Evening Shift
-├── On Call
-├── Training
-└── Leave
-```
-✔ Custom shift names
-✔ Colour-coded schedules
-✔ Personal calendar management
-✔ Quick updates
----
-## 👥 Team Roster
-### Department-Wide Visibility
-View all shifts for:
-* Theatre Nurses
-* Anaesthetic Staff
-* Surgeons
-* Clinical Coordinators
-* Support Staff
-```text
-Department Roster
-Mon Tue Wed Thu Fri
-👩‍⚕️ Alice
-👨‍⚕️ John
-👩‍⚕️ Sarah
-👨‍⚕️ David
-```
----
-## 💬 Team Chat
-### Real-Time Communication
-```text
-Anaesthetic Team
-Sarah:
-Can anyone cover Friday?
-John:
-I can take that shift.
-Sarah:
-Perfect 👍
-```
-✔ Instant messaging
-✔ Team-wide communication
-✔ Shared departmental chat
-✔ Real-time synchronization
----
-## 🪪 Members Directory
-Quickly locate staff within your department.
-### Member Information
-* Name
-* Position
-* Hospital
-* Department
-```text
-Members
-👩‍⚕️ Sarah Wilson
-Senior Theatre Nurse
-👨‍⚕️ Michael Lee
-Anaesthetic Consultant
-```
----
-## 👤 My Profile
-Manage your personal account.
-### Available Actions
-✔ Update profile
-✔ View statistics
-✔ Change theme
-✔ Manage preferences
-✔ Delete account
----
-## 🗄 My Data
-Transparency first.
-See exactly what information is stored.
-```text
-My Data
-✓ Profile
-✓ Shifts
-✓ Messages
-✓ Membership Records
-```
----
-# 🔒 Privacy & Security
-Patient care requires trust.
-OT Roster Hub is designed with strict data separation.
----
-## Data Isolation
-```text
-Hospital A
-   │
-   ├── Theatre 1
-   ├── Theatre 2
-   └── ICU
-Hospital B
-   │
-   ├── Theatre 1
-   └── Emergency
-```
-Users only see data within:
-✔ Their Hospital
-✔ Their Department
----
-## Secure Storage
-All information is stored securely using:
-### 🔥 Firebase Firestore
-Benefits:
-* Encrypted communication
-* Real-time synchronization
-* Scalable infrastructure
-* Reliable cloud storage
----
-## Account Deletion
-Deleting your account permanently removes:
-* Shift records
-* Chat messages
-* Member profiles
-* Personal information
----
-# 🌍 International Holiday Support
-Public holidays are loaded automatically based on your selected country.
----
-| Country | Code |
-| ------------------- | ---- |
-| 🇦🇺 Australia | AU |
-| 🇺🇸 United States | US |
-| 🇬🇧 United Kingdom | GB |
-| 🇨🇦 Canada | CA |
-| 🇳🇿 New Zealand | NZ |
-| 🇮🇪 Ireland | IE |
-| 🇮🇳 India | IN |
-| 🇿🇦 South Africa | ZA |
----
-# 🏗 System Architecture
-```text
-                ┌─────────────────┐
-                │ Mobile Device │
-                └────────┬────────┘
-                         │
-                         ▼
-                ┌─────────────────┐
-                │ OT Roster Hub │
-                │ Progressive App │
-                └────────┬────────┘
-                         │
-         ┌───────────────┼───────────────┐
-         ▼ ▼ ▼
-    Calendar Team Chat Members
-         └───────────────┬───────────────┘
-                         ▼
-                Firebase Firestore
-                         ▼
-                 Real-Time Sync
-```
----
-# 🛠 Technology Stack
-| Component | Technology |
-| ----------- | ------------------------- |
-| Database | Firebase Firestore |
-| Styling | Tailwind CSS |
-| Icons | Font Awesome |
-| Holiday API | Nager.Date |
-| Hosting | GitHub Pages |
-| App Type | Progressive Web App (PWA) |
----
-# 🚀 Getting Started
-## Step 1
-Open the application URL.
----
-## Step 2
-Complete your profile:
-```text
-Full Name
-Position
-Hospital
-Department
-Country
-```
----
-## Step 3
-Click:
-# 🎭 Enter the OR
----
-## Step 4
-Your profile becomes visible to colleagues in the same:
-✔ Hospital
-✔ Department
----
-### 💡 Important Tip
-For colleagues to appear in the same workspace:
-```text
-Hospital:
-Royal Adelaide Hospital
-Department:
-Operating Theatre
-```
-Must match exactly for all users.
-Even small spelling differences create separate groups.
----
-# 🎯 Designed For
-🏥 Hospitals
-⚕️ Surgical Centres
-👨‍⚕️ Surgeons
-👩‍⚕️ Theatre Nurses
-🩺 Anaesthetists
-🏨 Private Health Networks
-🏥 Clinical Operations Teams
----
-# 📜 License
-OT Roster Hub is open-source software.
-✅ Personal Use
-✅ Educational Use
-✅ Commercial Use
----
+### Operation Theater Shift & Team Manager
+
+[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge)](https://ouseph444.github.io/Shift-Manager/)
+[![PWA](https://img.shields.io/badge/PWA-Installable-blue?style=for-the-badge)](https://ouseph444.github.io/Shift-Manager/)
+[![Firebase](https://img.shields.io/badge/Firebase-FireStore-FFCA28?style=for-the-badge&logo=firebase)](https://firebase.google.com)
+[![Mobile First](https://img.shields.io/badge/Mobile-First-FF6B6B?style=for-the-badge)]()
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](https://opensource.org/licenses/MIT)
+
 <div align="center">
-## 🏥 Built for Theatre Teams, by Theatre Teams
-### Simplifying Shift Management. Improving Team Coordination. Enhancing Communication.
-**OT Roster Hub**
-📅 Schedule • 👥 Collaborate • 💬 Communicate
+  
+**A mobile-friendly web app for hospital staff to manage shifts, view team rosters, and chat in real-time — organised by hospital and department.**
+
+![OT Roster Hub Banner](https://images.unsplash.com/photo-1516574187841-693083f6d054?w=1200&h=400&fit=crop)
+
+👉 **[🚀 Open App Now](https://ouseph444.github.io/Shift-Manager/)** 👈
+
 </div>
+
+---
+
+## 📱 Install as a Native App
+
+**OT Roster Hub** works like a native app on both iPhone and Android. No App Store download required!
+
+### 🍎 iPhone (Safari)
+
+<div align="center">
+  
+| Step 1 | Step 2 | Step 3 |
+|:---:|:---:|:---:|
+| Open in **Safari** | Tap **Share** ⬆️ | Tap **"Add to Home Screen"** |
+| ![Step 1](https://img.shields.io/badge/1-Open%20Safari-blue) | ![Step 2](https://img.shields.io/badge/2-Tap%20Share-orange) | ![Step 3](https://img.shields.io/badge/3-Add%20to%20Home-green) |
+
+</div>
+
+1. Open the app URL in **Safari** *(must be Safari, not Chrome)*
+2. Tap the **Share button** at the bottom — looks like a box with an arrow pointing up ⬆️
+3. Scroll down and tap **"Add to Home Screen"**
+4. Edit the name if you like, then tap **Add**
+5. The app icon appears on your home screen — tap to open like any app!
+
+> ⚠️ **Important:** This only works in Safari on iPhone. If you're using Chrome or another browser, switch to Safari first.
+
+---
+
+### 🤖 Android (Chrome)
+
+<div align="center">
+  
+| Step 1 | Step 2 | Step 3 |
+|:---:|:---:|:---:|
+| Open in **Chrome** | Tap **Menu** ⋮ | Tap **"Install App"** |
+| ![Step 1](https://img.shields.io/badge/1-Open%20Chrome-blue) | ![Step 2](https://img.shields.io/badge/2-Tap%20Menu-orange) | ![Step 3](https://img.shields.io/badge/3-Install-green) |
+
+</div>
+
+1. Open the app URL in **Chrome**
+2. Chrome may show a pop-up banner at the bottom saying **"Add to Home Screen"** — tap it
+3. If the banner doesn't appear, tap the **three-dot menu** (⋮) in the top right corner
+4. Tap **"Install App"** or **"Add to Home Screen"**
+5. Tap **Install** — the app icon appears in your app drawer and home screen
+
+---
+
+## ✨ Features
+
+<div align="center">
+
+| Feature | Icon | Description |
+|---------|:----:|-------------|
+| **My Calendar** | 📅 | Add and manage your personal shifts with custom colours and names |
+| **Team Roster** | 👥 | See all shifts for your department in real-time |
+| **Team Chat** | 💬 | Live group chat shared across all team members |
+| **Members** | 🪪 | See everyone registered in your hospital and department |
+| **My Profile** | 👤 | View your stats, change theme, delete your account |
+| **My Data** | 🗄️ | See exactly what data is stored against your account |
+
+</div>
+
+---
+
+## 🎯 Why OT Roster Hub?
+
+<table>
+<tr>
+<td width="50%">
+
+### ✅ Benefits
+
+- 🏥 **Hospital-Specific** — Data isolated by hospital & department
+- 🔄 **Real-Time Updates** — See changes instantly across all devices
+- 📊 **Personal Stats** — Track your shifts and workload
+- 🎨 **Custom Themes** — Light & dark mode support
+- 🌍 **Public Holidays** — Auto-loaded for 8+ countries
+- 🔒 **Privacy First** — Delete your data anytime
+
+</td>
+<td width="50%">
+
+### 🚀 Quick Start
+
+1. Open the app in your browser
+2. Enter your details (Name, Position, Hospital, Department, Country)
+3. Tap **"Enter the OR"**
+4. Start managing your shifts!
+
+> 💡 **Pro Tip:** Make sure your hospital name and department match **exactly** with your colleagues (same spelling, same capitalisation) so you end up in the same group.
+
+</td>
+</tr>
+</table>
+
+---
+
+## 🔒 Privacy & Security
+
+<div align="center">
+  
+![Security](https://img.shields.io/badge/Security-Enterprise%20Grade-brightgreen?style=for-the-badge)
+
+</div>
+
+- **🏢 Data Isolation:** Your data is isolated by hospital and department — users from other hospitals or departments **cannot** see your data
+- **☁️ Secure Storage:** All data is stored securely in **Google Firebase Firestore** with enterprise-grade encryption
+- **🗑️ Full Control:** Deleting your profile **permanently removes** all your shifts, messages, and member record
+- **🔐 No Passwords:** Simple, secure access without complex authentication
+
+---
+
+## 🌍 Supported Countries & Holidays
+
+The app automatically loads public holidays for your country from the [Nager.Date API](https://date.nager.at).
+
+<div align="center">
+
+| Flag | Country | Code | Flag | Country | Code |
+|:----:|---------|:----:|:----:|---------|:----:|
+| 🇦🇺 | Australia | AU | 🇳🇿 | New Zealand | NZ |
+| 🇺🇸 | United States | US | 🇮🇪 | Ireland | IE |
+| 🇬 | United Kingdom | GB | 🇳 | India | IN |
+| 🇨🇦 | Canada | CA | 🇿🇦 | South Africa | ZA |
+
+</div>
+
+---
+
+## 🛠️ Built With
+
+<div align="center">
+
+[![Firebase](https://img.shields.io/badge/Firebase-FireStore-FFCA28?style=for-the-badge&logo=firebase&logoColor=white)](https://firebase.google.com)
+[![Tailwind](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+[![Font Awesome](https://img.shields.io/badge/Font_Awesome-528DD7?style=for-the-badge&logo=font-awesome&logoColor=white)](https://fontawesome.com)
+[![Nager.Date](https://img.shields.io/badge/Nager.Date-API-4CAF50?style=for-the-badge)](https://date.nager.at)
+[![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-Hosting-222222?style=for-the-badge&logo=github)](https://pages.github.com)
+
+</div>
+
+### Technology Stack
+
+```yaml
+Frontend:
+  - HTML5
+  - Tailwind CSS
+  - Vanilla JavaScript
+  - Font Awesome Icons
+
+Backend:
+  - Firebase Firestore (Real-time Database)
+  - Firebase Authentication
+
+External APIs:
+  - Nager.Date (Public Holidays)
+
+Hosting:
+  - GitHub Pages (CDN-enabled)
