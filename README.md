@@ -93,6 +93,13 @@ The app automatically loads public holidays for your country from an external AP
   <img src="https://img.shields.io/badge/GitHub_Pages-222222?style=for-the-badge&logo=github" alt="GitHub Pages">
 </div>
 
+graph TD
+    A[User Mobile Browser] -->|HTTPS| B[GitHub Pages CDN]
+    B -->|Serves| C[HTML / Tailwind / JS]
+    C -->|Real-time Sync| D[(Firebase Firestore)]
+    D -->|Isolated Data| E[Hospital/Dept Groups]
+    C -->|Fetch Holidays| F[Nager.Date API]
+
 ```yaml
 Frontend:
   - HTML5 & Vanilla JavaScript
