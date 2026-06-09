@@ -84,13 +84,6 @@ The app automatically loads public holidays for your country from an external AP
 
 ---
 
-graph TD
-    A[User Mobile Browser] -->|HTTPS| B[GitHub Pages CDN]
-    B -->|Serves| C[HTML / Tailwind / JS]
-    C -->|Real-time Sync| D[(Firebase Firestore)]
-    D -->|Isolated Data| E[Hospital/Dept Groups]
-    C -->|Fetch Holidays| F[Nager.Date API]
-
 ## 🛠️ Built With
 
 <div align="center">
@@ -116,3 +109,9 @@ External APIs:
 
 Hosting:
   - GitHub Pages (Free, global CDN hosting)
+graph TD
+    A[User Mobile Browser] -->|HTTPS| B[GitHub Pages CDN]
+    B -->|Serves| C[HTML / Tailwind / JS]
+    C -->|Real-time Sync| D[(Firebase Firestore)]
+    D -->|Isolated Data| E[Hospital/Dept Groups]
+    C -->|Fetch Holidays| F[Nager.Date API]
