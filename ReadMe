@@ -1,189 +1,92 @@
 <div align="center">
+
   <img src="https://img.shields.io/badge/Platform-Web%20App-blue?style=for-the-badge&logo=web" alt="Platform" />
   <img src="https://img.shields.io/badge/Mobile-Friendly-success?style=for-the-badge&logo=android" alt="Mobile" />
   <img src="https://img.shields.io/badge/Real--Time-Collaboration-orange?style=for-the-badge&logo=firebase" alt="Real-time" />
   <img src="https://img.shields.io/badge/Firebase-Powered-yellow?style=for-the-badge&logo=firebase" alt="Firebase" />
   <img src="https://img.shields.io/badge/PWA-Progressive%20Web%20App-9cf?style=for-the-badge&logo=pwa" alt="PWA" />
 
+  <br />
+  <br />
+
   <h1>🏥 OT Roster Hub</h1>
   <h3><strong>Operation Theatre Shift & Team Management Platform</strong></h3>
 
-  <p><strong>📅 Manage Shifts • 👥 Coordinate Teams • 💬 Communicate Instantly</strong></p>
-  <p><em>A modern digital workspace built specifically for Operating Theatre teams.</em></p>
+  <p><strong>📅 Schedule Shifts • 👥 Coordinate Teams • 💬 Communicate Instantly</strong></p>
+  <p><em>A modern, frictionless digital workspace built specifically for Operating Theatre teams.</em></p>
+
+  <br />
 
   <a href="https://your-app-url-here.netlify.app" target="_blank">
-    <img src="https://img.shields.io/badge/🚀-Launch%20App-00C853?style=for-the-badge" alt="Launch App" />
+    <img src="https://img.shields.io/badge/%F0%9F%9A%80-Launch%20App-00C853?style=for-the-badge" alt="Launch App" size="200" />
   </a>
+
 </div>
 
 ---
 
 ## 🌟 Overview
 
-**OT Roster Hub** is a **mobile-first**, real-time workforce management platform designed exclusively for hospital operating theatre teams.
+**OT Roster Hub** is a mobile-first, real-time workforce management platform designed exclusively for hospital operating theatre teams. It helps hospitals, surgical centres, and clinical staff eliminate paper schedules, reduce miscommunication, and streamline shift coordination.
 
-It helps hospitals, surgical centres, and clinical staff eliminate paper schedules, reduce miscommunication, and streamline shift coordination.
-
-**Perfect for:**
-- 🏥 Hospitals & Surgical Centres
-- 👨‍⚕️ Surgeons
-- 👩‍⚕️ Theatre Nurses
-- 🩺 Anaesthetists & Anaesthetic Teams
-- ⚕️ Clinical Coordinators & Support Staff
+### 🎯 Designed For
+* 🏥 **Hospitals & Surgical Centres** (Public & Private)
+* 👨‍⚕️ **Surgeons & Anaesthetists**
+* 👩‍⚕️ **Theatre & Recovery Nurses**
+* 🩺 **Clinical Coordinators & Support Staff**
 
 ---
 
-## 🎯 Problems It Solves
+## ⚡ Problem vs. Solution
 
 | Traditional Rostering ❌ | OT Roster Hub ✅ |
-|-------------------------|-----------------|
-| Paper schedules & whiteboards | Real-time digital updates |
-| Spreadsheet chaos & version conflicts | Clean, colour-coded calendar |
-| Lost WhatsApp/Email messages | Built-in team chat |
-| Shift clashes & poor visibility | Instant conflict detection |
-| Limited mobile access | Full PWA — works offline |
-
----
-
-## 📱 Install Like a Native App
-
-**No App Store required** — Install directly from your browser.
-
-### 🍎 iPhone / iPad (Safari)
-
-1. Open the app in **Safari**
-2. Tap the **Share** button ⬆️
-3. Scroll and select **Add to Home Screen**
-4. Tap **Add**
-
-> ⚠️ Only works in Safari on iOS/iPadOS
-
-### 🤖 Android (Chrome)
-
-1. Open the app in **Chrome**
-2. Tap the **Install** banner that appears
-   **OR**
-3. Tap the menu ⋮ → **Install app**
+| :--- | :--- |
+| Paper schedules & messy whiteboards | **Real-time digital updates** instantly sync'd |
+| Spreadsheet chaos & version conflicts | **Clean, colour-coded calendar** interface |
+| Lost WhatsApp groups & email messages | **Built-in team chat** and swap workflows |
+| Shift clashes & poor roster visibility | **Instant conflict detection** during scheduling |
+| Limited access outside the hospital | **Full PWA support** with offline access |
 
 ---
 
 ## ✨ Core Features
 
-### 📅 **My Calendar**
-- Personal shift management
-- Custom shift types (Morning, Evening, On-Call, Training, Leave, etc.)
-- Colour-coded & easy to read
-- Quick add/edit with one tap
+### 📅 My Calendar
+* **Personalized Views:** Manage your specific shift rotations seamlessly.
+* **Custom Shift Types:** Support for Morning, Evening, On-Call, Training, Leave, and more.
+* **Visual Clarity:** Beautifully colour-coded system for quick reading.
+* **One-Tap Actions:** Quick add or edit entries with a single tap.
 
-### 👥 **Team Roster**
-- Department-wide visibility
-- View everyone's shifts at a glance
-- Theatre Nurses, Surgeons, Anaesthetists, Coordinators & more
+### 👥 Team Roster & Directory
+* **Department-Wide Visibility:** View everyone's shifts at a single glance.
+* **Quick Staff Lookup:** Access contact details and specific department roles dynamically.
 
-### 💬 **Team Chat**
-- Real-time messaging
-- Department-specific channels
-- Instant shift swap requests & responses
+### 💬 Team Chat
+* **Real-Time Messaging:** Instant interaction with built-in department-specific channels.
+* **Shift Swaps:** Send, review, and approve shift swap requests directly within the chat app.
 
-### 🪪 **Members Directory**
-- Quick staff lookup
-- Contact details & roles within your department
-
-### 👤 **My Profile**
-- Update details, preferences, theme
-- View personal statistics
-- Secure account management
-
-### 🗄 **My Data**
-Full transparency — see exactly what data is stored about you.
-
----
-
-## 🔒 Privacy & Security
-
-**Patient care demands trust.**  
-OT Roster Hub uses **strict data isolation**:
-
-- Users only see data from **their hospital** and **their department**
-- No cross-hospital visibility
-- All data encrypted in transit and at rest
-- Powered by **Firebase Firestore**
-
-### Account Deletion
-One-click permanent deletion removes:
-- All shifts
-- Chat history
-- Profile information
-
----
-
-## 🌍 International Holiday Support
-
-Public holidays are automatically loaded based on your selected country.
-
-| Country          | Code |
-|------------------|------|
-| 🇦🇺 Australia    | AU   |
-| 🇺🇸 United States| US   |
-| 🇬🇧 United Kingdom| GB  |
-| 🇨🇦 Canada       | CA   |
-| 🇳🇿 New Zealand  | NZ   |
-| 🇮🇪 Ireland      | IE   |
-| 🇮🇳 India        | IN   |
-| 🇿🇦 South Africa | ZA   |
+### 🔒 Privacy, Security & Control
+* **Strict Data Isolation:** Users only see data corresponding to their exact *Hospital* and *Department*. No cross-hospital leaks.
+* **Full Data Transparency:** An dedicated "My Data" tab lets you see exactly what information is stored.
+* **Right to Be Forgotten:** One-click account deletion permanently scrubs shifts, profile data, and chat logs.
 
 ---
 
 ## 🛠 Technology Stack
 
-| Component       | Technology              |
-|-----------------|-------------------------|
-| **Backend**     | Firebase Firestore      |
-| **Frontend**    | HTML + Tailwind CSS     |
-| **Icons**       | Font Awesome            |
-| **Holidays**    | Nager.Date API          |
-| **Hosting**     | GitHub Pages            |
-| **App Type**    | Progressive Web App (PWA) |
+* **Frontend:** Vanilla HTML5 + Tailwind CSS (Utility-first styling)
+* **Icons:** Font Awesome Iconography
+* **Backend & DB:** Firebase Firestore (Real-time document storage)
+* **Holidays Integration:** Nager.Date API
+* **App Standard:** Progressive Web App (PWA)
+* **Hosting:** GitHub Pages
 
 ---
 
-## 🚀 Getting Started
+## 🌍 International Holiday Support
 
-1. **Open the application**
-2. **Complete your profile** (Name, Position, Hospital, Department, Country)
-3. **Click "Enter the OR"** 🎭
-4. Start managing shifts and connecting with your team!
+Public holidays are loaded automatically based on your selected regional settings:
 
-> 💡 **Important**: Hospital name and Department must match **exactly** for colleagues to appear in the same workspace.
-
----
-
-## 🎯 Designed For
-
-- 🏥 Public & Private Hospitals
-- ⚕️ Day Surgery & Surgical Centres
-- 🏨 Private Health Networks
-- 👨‍⚕️ Surgeons & Anaesthetists
-- 👩‍⚕️ Theatre & Recovery Staff
-
----
-
-## 📜 License
-
-**Open Source** — MIT License
-
-✅ Free for **personal**, **educational**, and **commercial** use.
-
----
-
-<div align="center">
-
----
-
-**🏥 Built for Theatre Teams, by Theatre Teams**
-
-**Simplifying Shift Management • Improving Coordination • Enhancing Communication**
-
-**OT Roster Hub** — 📅 Schedule • 👥 Collaborate • 💬 Communicate
-
-</div>
+```text
+🇦🇺 AU (Australia)       🇺🇸 US (United States)    🇬🇧 GB (United Kingdom)  🇨🇦 CA (Canada)
+🇳🇿 NZ (New Zealand)     🇮🇪 IE (Ireland)          🇮🇳 IN (India)           🇿🇦 ZA (South Africa)
